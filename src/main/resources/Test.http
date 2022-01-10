@@ -1,0 +1,96 @@
+
+
+###
+POST http://localhost:80/api/task/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "DROPDOWN",
+  "name": "Viloyat",
+  "dropdownDto": [
+    {
+      "nameDropdown": "Andijon",
+      "color": "RED"
+    },
+    {
+      "nameDropdown": "Fargona",
+      "color": "RED"
+    }
+
+  ]
+}
+
+###
+POST http://localhost:80/api/task/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "LABEL",
+  "name": "Tuman",
+  "labelDto": [
+    {
+      "name": "Chirchiq",
+      "color": "RED"
+    },
+    {
+      "name": "Yakkasaroy",
+      "color": "RED"
+    }
+
+  ]
+}
+
+
+###
+POST http://localhost:80/api/task/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "TEXT",
+  "name": "Otasi"
+}
+
+###
+POST http://localhost:80/api/task/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "MONEY",
+  "name": "Maosh",
+  "moneyDto": {
+    "currency": "EURO"
+  }
+}
+
+###
+POST http://localhost:80/api/task/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "RATING",
+  "name": "Kayfiyati",
+  "ratingDto": {
+    "emoji": "😄",
+    "degree": 3
+  }
+}
+
+###
+POST http://localhost:80/api/payment/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "DROPDOWN",
+  "name": "Viloyat",
+  "dropdownDto": [
+    {
+      "nameDropdown": "Toshkent",
+      "color": "BLUE"
+    },
+    {
+      "nameDropdown": "Fargona",
+      "color": "GREEN"
+    }
+
+  ]
+}
