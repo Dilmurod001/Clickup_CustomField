@@ -21,6 +21,9 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:80/api/task/dropdownList
+
+###
 POST http://localhost:80/api/task/addCustomField
 Content-Type: application/json
 

@@ -17,37 +17,21 @@ import java.util.Optional;
 @Service
 public class TaskService {
     @Autowired
-    TaskRepository spaceRepository;
+    TaskRepository taskRepository;
     @Autowired
     ViewRepository viewRepository;
     @Autowired
     AttachmentRepository attachmentRepository;
 
 
-    public ApiResponse add(TaskDto spaceDto) {
+    public ApiResponse addTask(Task task) {
 
-//        List<View> viewList = new ArrayList<>();
-//        for (Long l : spaceDto.getViewList()) {
-//            Optional<View> byId = viewRepository.findById(l);
-//            if (!byId.isPresent()) return new ApiResponse("Not view", false);
-//
-//            viewList.addCustomField(byId.get());
-//        }
+        Task task1 = new Task();
+        task1.setName(task.getName());
+        task1.setDescription(task.getDescription());
+        task1.setStatus(task.getStatus());
 
-        Task space = new Task();
-
-//        if (spaceDto.getPhotoId() > 0) {
-//            Optional<Attachment> optionalAttachment = attachmentRepository.findById(spaceDto.getPhotoId());
-//            if (!optionalAttachment.isPresent()) return new ApiResponse("Not found Photo", false);
-//            space.setAttachment(optionalAttachment.get());
-//
-//        }
-
-        space.setName(spaceDto.getName());
-        space.setDescription(spaceDto.getDescription());
-//        space.setViewList(viewList);
-
-        spaceRepository.save(space);
+        taskRepository.save(task1);
         return new ApiResponse("Saved !", true);
     }
 }

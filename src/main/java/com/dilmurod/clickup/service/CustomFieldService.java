@@ -1,5 +1,6 @@
 package com.dilmurod.clickup.service;
 
+import com.dilmurod.clickup.constants.Constanta;
 import com.dilmurod.clickup.entity.customField.*;
 import com.dilmurod.clickup.entity.template.CustomFieldTypeEnum;
 import com.dilmurod.clickup.payload.ApiResponse;
@@ -72,4 +73,8 @@ public class CustomFieldService {
         return new ApiResponse("Saved", true);
     }
 
+    public List<Dropdown> list() {
+        return dropdownRepository.findAllByCustomField_TableNameAndCustomField_Name(Constanta.TABLE_TASK, "Viloyat");
+
+    }
 }
