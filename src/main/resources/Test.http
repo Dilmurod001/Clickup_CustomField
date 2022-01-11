@@ -1,5 +1,4 @@
 
-
 ###
 POST http://localhost:80/api/task/addCustomField
 Content-Type: application/json
@@ -20,8 +19,9 @@ Content-Type: application/json
   ]
 }
 
+
 ###
-GET http://localhost:80/api/task/dropdownList
+GET http://localhost:80/api/task/customFieldList/4
 
 ###
 POST http://localhost:80/api/task/addCustomField
@@ -97,3 +97,39 @@ Content-Type: application/json
 
   ]
 }
+
+
+###
+POST http://localhost:80/api/task/custValue
+Content-Type: application/json
+
+{
+  "id": 7,
+  "value": 4,
+  "appropriateId": 1
+}
+
+
+###
+POST http://localhost:80/api/payment/addCustomField
+Content-Type: application/json
+
+{
+  "fieldType": "LABEL",
+  "name": "Tuman",
+  "labelDto": [
+    {
+      "name": "Chirchiq",
+      "color": "RED"
+    },
+    {
+      "name": "Yakkasaroy",
+      "color": "RED"
+    }
+
+  ]
+}
+
+###
+GET http://localhost:80/api/payment/customFieldList/4
+

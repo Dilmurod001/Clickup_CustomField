@@ -21,10 +21,12 @@ public class CustomField extends AbsNameEntity {
     @Column(nullable = false, name = "field_type")
     @Enumerated(EnumType.STRING)
     private CustomFieldTypeEnum fieldType;
+
     @JsonIgnore
     @OneToMany(mappedBy = "customField")
     private List<Dropdown> optionalDropdown;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customField")
     private List<Label> labels;
 
