@@ -10,7 +10,9 @@ import com.dilmurod.clickup.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class CustomFieldService {
@@ -102,29 +104,57 @@ public class CustomFieldService {
 
     }
 
-    public ApiResponse addCustVal(CustValDto custValDto) {
-        CustomFieldValue customFieldValue =new CustomFieldValue();
+    public ApiResponse addCustVal(CustValDto custValDto) throws ParseException {
+        CustomFieldValue customFieldValue = new CustomFieldValue();
         Optional<CustomField> byId = customFieldRepository.findById(custValDto.getId());
         CustomField customField = byId.get();
 
+        if (!byId.isPresent()) return new ApiResponse("Not customField", false);
         customFieldValue.setCustomField(customField);
 
 
-        if (customField.getFieldType().equals(CustomFieldTypeEnum.NUMBER)) {
-            customFieldValue.setValue(String.valueOf(custValDto.getValue()));
-            customFieldValue.setValue(custValDto.getValue());
-        }
         if (customField.getTableName().equals(Constanta.TABLE_TASK)) {
             Optional<Task> byId1 = taskRepository.findById(custValDto.getAppropriateId());
             customFieldValue.setAppropriate(byId1.get().getId());
 
-        }else if (customField.getTableName().equals(Constanta.TABLE_PAYMENT)) {
+            if (customField.getFieldType().equals(CustomFieldTypeEnum.NUMBER)) {
+                customFieldValue.setValue(String.valueOf(custValDto.getValue()));
+
+            } else if (customField.getFieldType().equals(CustomFieldTypeEnum.DATE)) {
+                Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(custValDto.getValue());
+                customFieldValue.setValue(String.valueOf(date1));
+
+            }else if(customField.getFieldType().equals(CustomFieldTypeEnum.LABEL)){
+                List<Long> values = new ArrayList<>();
+                String value = custValDto.getValue();
+                String[] words=value.split(",");
+
+                Long[] val =new Long[words.length];
+
+                for (int i = 0; i < words.length; i++) {
+                    val[i] = Long.parseLong(words[i]);
+                }
+
+
+//                System.out.println(Arrays.toString(words));
+
+                for (Long aLong : val) {
+                    System.out.println(aLong);
+                    Optional<Label> byId2 = labelRepository.findById(aLong);
+                    if (!byId2.isPresent()) return new ApiResponse("Not Label", false,aLong);
+
+                    values.add(byId2.get().getId());
+                }
+                customFieldValue.setValue(String.valueOf(values));
+            }
+
+        } else if (customField.getTableName().equals(Constanta.TABLE_PAYMENT)) {
             Optional<Payment> byId1 = paymentRepository.findById(custValDto.getAppropriateId());
             customFieldValue.setAppropriate(byId1.get().getId());
         }
 
         cusValRepository.save(customFieldValue);
-        return new ApiResponse("saved",true);
+        return new ApiResponse("saved", true);
 
 
     }

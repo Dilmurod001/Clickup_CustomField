@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.OrderBy;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,7 @@ public class TaskController {
     }
 
     @PostMapping("/custValue")
-    public HttpEntity<?> addCusVal(@RequestBody CustValDto custValDto){
+    public HttpEntity<?> addCusVal(@RequestBody CustValDto custValDto) throws ParseException {
         ApiResponse apiResponse=customFieldService.addCustVal(custValDto);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
