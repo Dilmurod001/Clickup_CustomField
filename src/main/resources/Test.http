@@ -105,10 +105,17 @@ Content-Type: application/json
 
 {
   "id": 4,
-  "value":"1,2",
+  "value": 500.6,
   "appropriateId": 1
 }
 
+
+###
+GET http://localhost:80/api/task/list
+
+
+###
+GET http://localhost:80/api/task/listValue
 
 ###
 POST http://localhost:80/api/payment/addCustomField

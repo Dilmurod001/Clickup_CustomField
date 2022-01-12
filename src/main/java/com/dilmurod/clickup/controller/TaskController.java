@@ -2,7 +2,6 @@ package com.dilmurod.clickup.controller;
 
 import com.dilmurod.clickup.constants.Constanta;
 import com.dilmurod.clickup.entity.Task;
-import com.dilmurod.clickup.entity.customField.Dropdown;
 import com.dilmurod.clickup.payload.ApiResponse;
 import com.dilmurod.clickup.payload.CustValDto;
 import com.dilmurod.clickup.payload.CustomFieldDto;
@@ -14,9 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.OrderBy;
 import java.text.ParseException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/task")
@@ -54,4 +51,14 @@ public class TaskController {
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
+    @GetMapping("/list")
+    public HttpEntity<?> list(){
+        return ResponseEntity.ok(taskRepository.getAllByCustomField());
+    }
+
+
+    @GetMapping("/listValue")
+    public HttpEntity<?> listValue(){
+        return ResponseEntity.ok(taskRepository.getAll());
+    }
 }
