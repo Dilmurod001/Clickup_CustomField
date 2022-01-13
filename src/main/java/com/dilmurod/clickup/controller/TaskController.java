@@ -42,13 +42,19 @@ public class TaskController {
     @GetMapping("/customFieldList/{id}")
     public HttpEntity<?> getList(@PathVariable Long id) {
         ApiResponse response = customFieldService.list(id, Constanta.TABLE_TASK);
-        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response.getMessage());
     }
 
     @PostMapping("/custValue")
     public HttpEntity<?> addCusVal(@RequestBody CustValDto custValDto) throws ParseException {
         ApiResponse apiResponse=customFieldService.addCustVal(custValDto);
-        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse.getMessage());
+    }
+
+    @GetMapping("/listValueSorted/{id}")
+    public HttpEntity<?> listSortedValue(@PathVariable Long id, @RequestParam boolean isSort){
+        ApiResponse response = customFieldService.sortCustomField(id, Constanta.TABLE_TASK,isSort);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/list")

@@ -104,8 +104,8 @@ POST http://localhost:80/api/task/custValue
 Content-Type: application/json
 
 {
-  "id": 4,
-  "value": 500.6,
+
+  "value": 1,
   "appropriateId": 1
 }
 
@@ -138,5 +138,9 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:80/api/payment/customFieldList/4
+GET http://localhost:80/api/payment/customFieldList/1
+
+### Value Sort
+###
+GET http://localhost:80/api/task/listValueSorted/1?isSort=false
 

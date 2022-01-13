@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,6 +23,7 @@ public class CustomFieldValue extends AbsEntity {
     @ManyToOne
     private CustomField customField;
 
+    @Column(columnDefinition = "text")
     private String value;
 
     private Long appropriate;
