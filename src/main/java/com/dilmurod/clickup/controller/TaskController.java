@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 
 @RestController
@@ -46,25 +47,25 @@ public class TaskController {
     }
 
     @PostMapping("/custValue")
-    public HttpEntity<?> addCusVal(@RequestBody CustValDto custValDto) throws ParseException {
-        ApiResponse apiResponse=customFieldService.addCustVal(custValDto);
-        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse.getMessage());
+    public HttpEntity<?> addCusVal(@Valid @RequestBody CustValDto custValDto) throws ParseException {
+        ApiResponse apiResponse = customFieldService.addCustVal(custValDto, Constanta.TABLE_TASK);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse.getMessage());
     }
 
     @GetMapping("/listValueSorted/{id}")
-    public HttpEntity<?> listSortedValue(@PathVariable Long id, @RequestParam boolean isSort){
-        ApiResponse response = customFieldService.sortCustomField(id, Constanta.TABLE_TASK,isSort);
+    public HttpEntity<?> listSortedValue(@PathVariable Long id, @RequestParam boolean isSort) {
+        ApiResponse response = customFieldService.sortCustomField(id, Constanta.TABLE_TASK, isSort);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/list")
-    public HttpEntity<?> list(){
+    public HttpEntity<?> list() {
         return ResponseEntity.ok(taskRepository.getAllByCustomField());
     }
 
 
     @GetMapping("/listValue")
-    public HttpEntity<?> listValue(){
+    public HttpEntity<?> listValue() {
         return ResponseEntity.ok(taskRepository.getAll());
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 
 @RestController
@@ -26,8 +27,8 @@ public class PaymentController {
     }
 
     @PostMapping("/custValue")
-    public HttpEntity<?> addCusVal(@RequestBody CustValDto custValDto) throws ParseException {
-        ApiResponse apiResponse=customFieldService.addCustVal(custValDto);
+    public HttpEntity<?> addCusVal(@Valid @RequestBody CustValDto custValDto) throws ParseException {
+        ApiResponse apiResponse=customFieldService.addCustVal(custValDto, Constanta.TABLE_PAYMENT );
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse.getMessage());
     }
 

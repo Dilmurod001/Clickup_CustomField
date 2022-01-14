@@ -2,7 +2,6 @@ package com.dilmurod.clickup.service;
 
 import com.dilmurod.clickup.repository.CustomFieldRepository;
 import com.dilmurod.clickup.repository.DropdownRepository;
-import com.dilmurod.clickup.repository.OptionalDropdownRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 public class DropdownService {
     @Autowired
     DropdownRepository dropdownRepository;
-    @Autowired
-    OptionalDropdownRepository optionalDropdownRepository;
     @Autowired
     CustomFieldRepository customFieldRepository;
 

@@ -1,5 +1,8 @@
 package com.dilmurod.clickup.service;
 
+import com.dilmurod.clickup.constants.Constanta;
+import com.dilmurod.clickup.entity.Payment;
+import com.dilmurod.clickup.entity.Task;
 import com.dilmurod.clickup.entity.customField.*;
 import com.dilmurod.clickup.entity.template.CurrencyEnum;
 import com.dilmurod.clickup.entity.template.CustomFieldTypeEnum;
@@ -112,7 +115,7 @@ public class CustomFieldService {
 
     }
 
-    public ApiResponse addCustVal(CustValDto custValDto) throws ParseException {
+    public ApiResponse addCustVal(CustValDto custValDto, String tableName) throws ParseException {
         CustomFieldValue customFieldValue = new CustomFieldValue();
         Optional<CustomField> byId = customFieldRepository.findById(custValDto.getId());
 
@@ -121,7 +124,24 @@ public class CustomFieldService {
         customFieldValue.setCustomField(customField);
 
 
-        customFieldValue.setAppropriate(custValDto.getAppropriateId());
+        if (tableName.equals(Constanta.TABLE_TASK)) {
+            Optional<Task> byId1 = taskRepository.findById(custValDto.getAppropriateId());
+            if (!byId1.isPresent())
+                return new ApiResponse("Siz kiritgan appropriateId => " +
+                        custValDto.getAppropriateId() + " ga tegishli Task yoq", false);
+
+            customFieldValue.setAppropriate(byId1.get().getId());
+
+        } else if (tableName.equals(Constanta.TABLE_PAYMENT)) {
+            Optional<Payment> byId1 = paymentRepository.findById(custValDto.getAppropriateId());
+            if (!byId1.isPresent())
+                return new ApiResponse("Siz kiritgan appropriateId ga tegishli paymentlar yoq !", false);
+            customFieldValue.setAppropriate(byId1.get().getId());
+
+        } else return new ApiResponse("Not found table", false);
+
+
+//        customFieldValue.setAppropriate(custValDto.getAppropriateId());
 
         if (customField.getFieldType().equals(CustomFieldTypeEnum.NUMBER)) {
             try {
@@ -179,15 +199,13 @@ public class CustomFieldService {
             for (int i = 0; i < words.length; i++) {
                 val[i] = Long.parseLong(words[i]);
             }
+            Integer integer = labelRepository.existsAllById(Arrays.asList(val));
 
+            if (integer == val.length) {
+                customFieldValue.setValue(String.valueOf(Arrays.asList(val)));
 
-            for (Long aLong : val) {
-                Optional<Label> byId2 = labelRepository.findById(aLong);
-                if (!byId2.isPresent()) return new ApiResponse("Not Label", false, aLong);
+            } else return new ApiResponse("Xatolik", false);
 
-                values.add(byId2.get().getId());
-            }
-            customFieldValue.setValue(String.valueOf(values));
 
         } else if (customField.getFieldType().equals(CustomFieldTypeEnum.RATING)) {
 
@@ -234,9 +252,9 @@ public class CustomFieldService {
 
             try {
                 Boolean.parseBoolean(custValDto.getValue());
-            customFieldValue.setValue(String.valueOf(custValDto.getValue()));
+                customFieldValue.setValue(String.valueOf(custValDto.getValue()));
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 return new ApiResponse("Valuga true yoki false qiymat kiriting !", false);
             }
 
@@ -270,6 +288,7 @@ public class CustomFieldService {
                 return new ApiResponse("Siz tel raqamni xato kiritdiz Iltimos faqat raqam kiriting !", false);
             }
         }
+
 
         cusValRepository.save(customFieldValue);
         return new ApiResponse("saved", true);

@@ -104,8 +104,8 @@ POST http://localhost:80/api/task/custValue
 Content-Type: application/json
 
 {
-
-  "value": 1,
+  "id": 2,
+  "value": "1,2,4",
   "appropriateId": 1
 }
 
